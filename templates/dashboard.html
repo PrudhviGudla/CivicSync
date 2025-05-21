@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+{% block content %}
+<h2>Analytics Dashboard</h2>
+<div style="display:flex; flex-wrap:wrap; gap:2em;">
+  <div>
+    <h3>Issues by Category</h3>
+    <canvas id="catChart" width="300" height="300"></canvas>
+  </div>
+  <div>
+    <h3>Daily Submissions (7 days)</h3>
+    <canvas id="dailyChart" width="400" height="300"></canvas>
+  </div>
+</div>
+<div>
+  <h3>Most Voted Issue by Category</h3>
+  <table>
+    <tr><th>Category</th><th>Votes</th></tr>
+    {% for mv in most_voted %}
+      <tr><td>{{ mv._id }}</td><td>{{ mv.max_votes }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+<script>
+var catData = {
+  labels: [{% for c in cat_counts %}"{{ c._id }}"{% if not loop.last %},{% endif %}{% endfor %}],
+  datasets: [{
+    data: [{% for c in cat_counts %}{{ c.count }}{% if not loop.last %},{% endif %}{% endfor %}],
+    backgroundColor: ['#007bff','#28a745','#ffc107','#dc3545','#6c757d']
+  }]
+};
+new Chart(document.getElementById('catChart'), {
+  type: 'doughnut',
+  data: catData
+});
+
+var dailyData = {
+  labels: [{% for d in daily %}"{{ d.date }}"{% if not loop.last %},{% endif %}{% endfor %}],
+  datasets: [{
+    label: 'Issues',
+    data: [{% for d in daily %}{{ d.count }}{% if not loop.last %},{% endif %}{% endfor %}],
+    borderColor: '#007bff',
+    backgroundColor: 'rgba(0,123,255,0.1)',
+    fill: true,
+    tension: 0.3,
+    pointRadius: 5,
+    pointBackgroundColor: '#007bff',
+    pointBorderColor: '#fff',
+    pointHoverRadius: 7
+  }]
+};
+new Chart(document.getElementById('dailyChart'), {
+  type: 'line',
+  data: dailyData,
+  options: {
+    scales: {
+      y: { beginAtZero: true, precision: 0 }
+    }
+  }
+});
+</script>
+{% endblock %}

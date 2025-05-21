@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Edit Issue</h2>
+<form method="post" enctype="multipart/form-data">
+  <label>Title: <input type="text" name="title" value="{{ issue.title }}" required></label><br>
+  <label>Description: <textarea name="description" required>{{ issue.description }}</textarea></label><br>
+  <label>Category:
+    <select name="category" required>
+      <option value="Road" {% if issue.category=="Road" %}selected{% endif %}>Road</option>
+      <option value="Water" {% if issue.category=="Water" %}selected{% endif %}>Water</option>
+      <option value="Sanitation" {% if issue.category=="Sanitation" %}selected{% endif %}>Sanitation</option>
+      <option value="Electricity" {% if issue.category=="Electricity" %}selected{% endif %}>Electricity</option>
+      <option value="Other" {% if issue.category=="Other" %}selected{% endif %}>Other</option>
+    </select>
+  </label><br>
+  <label>Location: <input type="text" name="location" value="{{ issue.location }}" required></label><br>
+  <label>Image: <input type="file" name="image"></label>
+  {% if issue.image_url %}
+    <br><img src="{{ issue.image_url }}" alt="Current image" style="max-width:200px;">
+  {% endif %}
+  <br>
+  <button type="submit">Update</button>
+</form>
+{% endblock %}

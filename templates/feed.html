@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Public Issues</h2>
+<form method="get" action="/" class="filter-form">
+  <input type="text" name="q" placeholder="Search title..." value="{{ q }}">
+  <select name="category">
+    <option value="">All Categories</option>
+    <option value="Road" {% if category=="Road" %}selected{% endif %}>Road</option>
+    <option value="Water" {% if category=="Water" %}selected{% endif %}>Water</option>
+    <option value="Sanitation" {% if category=="Sanitation" %}selected{% endif %}>Sanitation</option>
+    <option value="Electricity" {% if category=="Electricity" %}selected{% endif %}>Electricity</option>
+    <option value="Other" {% if category=="Other" %}selected{% endif %}>Other</option>
+  </select>
+  <select name="status_">
+    <option value="">All Status</option>
+    <option value="Pending" {% if status_=="Pending" %}selected{% endif %}>Pending</option>
+    <option value="In Progress" {% if status_=="In Progress" %}selected{% endif %}>In Progress</option>
+    <option value="Resolved" {% if status_=="Resolved" %}selected{% endif %}>Resolved</option>
+  </select>
+  <select name="sort">
+    <option value="newest" {% if sort=="newest" %}selected{% endif %}>Newest</option>
+    <option value="most-voted" {% if sort=="most-voted" %}selected{% endif %}>Most Voted</option>
+  </select>
+  <button type="submit">Filter</button>
+</form>
+<div class="issue-list">
+  {% for issue in issues %}
+    <div class="issue-card">
+      {% if issue.image_url %}
+        <img src="{{ issue.image_url }}" alt="Issue image" style="max-width:120px; max-height:90px; border-radius:6px; margin-bottom:0.5em; display:block;" />
+      {% endif %}
+      <h3><a href="/issue/{{ issue.id }}">{{ issue.title }}</a></h3>
+      <p><b>Category:</b> {{ issue.category }} | <b>Location:</b> {{ issue.location }}</p>
+      <p><b>Status:</b> {{ issue.status }} | <b>Votes:</b> {{ issue.votes }}</p>
+      <p><small>Reported {{ issue.created_at.strftime('%Y-%m-%d %H:%M') }}</small></p>
+    </div>
+  {% else %}
+    <p>No issues found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

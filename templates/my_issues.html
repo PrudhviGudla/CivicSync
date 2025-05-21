@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Reported Issues</h2>
+<div class="issue-list">
+  {% for issue in issues %}
+    <div class="issue-card">
+      {% if issue.image_url %}
+        <img src="{{ issue.image_url }}" alt="Issue image" style="max-width:120px; max-height:90px; border-radius:6px; margin-bottom:0.5em; display:block;" />
+      {% endif %}
+      <h3><a href="/issue/{{ issue.id }}">{{ issue.title }}</a></h3>
+      <p><b>Category:</b> {{ issue.category }} | <b>Location:</b> {{ issue.location }}</p>
+      <p><b>Status:</b> {{ issue.status }} | <b>Votes:</b> {{ issue.votes }}</p>
+      <p><small>Reported {{ issue.created_at.strftime('%Y-%m-%d %H:%M') }}</small></p>
+      {% if issue.status == "Pending" %}
+        <a href="/edit/{{ issue.id }}">Edit</a> |
+        <a href="/delete/{{ issue.id }}" onclick="return confirm('Delete this issue?')">Delete</a> |
+      {% endif %}
+      <!-- Status update buttons -->
+      <div style="margin-top:0.5em;">
+        {% for s in ["Pending", "In Progress", "Resolved"] %}
+          {% if s != issue.status %}
+            <a href="/status/{{ issue.id }}/{{ s|urlencode }}" style="margin-right:0.5em;">
+              <button type="button">Mark {{ s }}</button>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p>You have not reported any issues yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

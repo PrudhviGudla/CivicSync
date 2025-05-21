@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="/static/map.js"></script>
+  <style>
+    #map-container { display: flex; gap: 2em; }
+    #map { flex: 2; min-width: 300px; height: 500px; }
+    #sidebar { flex: 1; background: #f7fbff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,123,255,0.04); padding: 1em; min-width: 220px; max-width: 350px; }
+    #sidebar img { max-width: 100%; border-radius: 8px; margin-bottom: 0.7em; }
+    #sidebar h3 { margin-top: 0; color: #007bff; }
+    #sidebar p { margin: 0.3em 0; }
+    @media (max-width: 900px) { #map-container { flex-direction: column; } #sidebar { max-width: 100%; } }
+  </style>
+{% endblock %}
+{% block content %}
+<h2>Map of Issues</h2>
+<div id="map-container">
+  <div id="map"></div>
+  <div id="sidebar">
+    <h3>Issue Details</h3>
+    <div id="issue-details">Click a marker to see details.</div>
+  </div>
+</div>
+<script>
+  window.ISSUES = {{ issues|tojson }};
+</script>
+{% endblock %}
