@@ -1,27 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>My Reported Issues</h2>
-<div class="issue-list">
+<h2 class="feed-title">My Reported Issues</h2>
+<div class="my-issue-list">
   {% for issue in issues %}
-    <div class="issue-card">
+    <div class="my-issue-card">
       {% if issue.image_url %}
-        <img src="{{ issue.image_url }}" alt="Issue image" style="max-width:120px; max-height:90px; border-radius:6px; margin-bottom:0.5em; display:block;" />
+        <img src="{{ issue.image_url }}" alt="Issue image" />
+      {% else %}
+        <div class="issue-thumb-placeholder"><span class="placeholder-emoji">🗂️</span></div>
       {% endif %}
       <h3><a href="/issue/{{ issue.id }}">{{ issue.title }}</a></h3>
-      <p><b>Category:</b> {{ issue.category }} | <b>Location:</b> {{ issue.location }}</p>
-      <p><b>Status:</b> {{ issue.status }} | <b>Votes:</b> {{ issue.votes }}</p>
-      <p><small>Reported {{ issue.created_at.strftime('%Y-%m-%d %H:%M') }}</small></p>
-      {% if issue.status == "Pending" %}
-        <a href="/edit/{{ issue.id }}">Edit</a> |
-        <a href="/delete/{{ issue.id }}" onclick="return confirm('Delete this issue?')">Delete</a> |
-      {% endif %}
-      <!-- Status update buttons -->
-      <div style="margin-top:0.5em;">
+      <div class="issue-meta">
+        <span class="issue-category">{{ issue.category }}</span>
+        <span class="issue-location">{{ issue.location }}</span>
+      </div>
+      <div class="issue-status-votes">
+        <span class="issue-status status-{{ issue.status|lower|replace(' ', '-') }}">{{ issue.status }}</span>
+        <span class="issue-votes">&#x1F44D; {{ issue.votes }}</span>
+      </div>
+      <p class="issue-date">Reported {{ issue.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+      <div style="margin-top:0.7em;">
+        {% if issue.status == "Pending" %}
+          <a href="/edit/{{ issue.id }}" class="edit-btn">Edit</a>
+          <a href="/delete/{{ issue.id }}" class="delete-btn" onclick="return confirm('Delete this issue?')">Delete</a>
+        {% endif %}
         {% for s in ["Pending", "In Progress", "Resolved"] %}
           {% if s != issue.status %}
-            <a href="/status/{{ issue.id }}/{{ s|urlencode }}" style="margin-right:0.5em;">
-              <button type="button">Mark {{ s }}</button>
-            </a>
+            <a href="/status/{{ issue.id }}/{{ s|urlencode }}" class="status-btn">Mark {{ s }}</a>
           {% endif %}
         {% endfor %}
       </div>

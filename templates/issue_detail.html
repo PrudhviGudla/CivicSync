@@ -1,22 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ issue.title }}</h2>
-<p><b>Category:</b> {{ issue.category }}</p>
-<p><b>Location:</b> {{ issue.location }}</p>
-<p><b>Status:</b> {{ issue.status }}</p>
-<p><b>Votes:</b> {{ issue.votes }}</p>
-<p><b>Reported:</b> {{ issue.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
-{% if issue.image_url %}
-  <img src="{{ issue.image_url }}" alt="Issue image" style="max-width:300px;">
-{% endif %}
-<p>{{ issue.description }}</p>
-{% if user %}
-  {% if not voted and not mine %}
-    <form method="post" action="/vote/{{ issue.id }}">
-      <button type="submit">Vote</button>
-    </form>
-  {% elif voted %}
-    <button disabled>Voted &#10003;</button>
+<div class="issue-detail-container">
+  {% if issue.image_url %}
+    <div class="issue-detail-image-box">
+      <img src="{{ issue.image_url }}" alt="Issue image" />
+    </div>
   {% endif %}
-{% endif %}
+  <div class="issue-detail-title">{{ issue.title }}</div>
+  <div class="issue-detail-meta">
+    <span class="issue-category">{{ issue.category }}</span>
+    <span class="issue-location">{{ issue.location }}</span>
+    <span class="issue-detail-status status-{{ issue.status|lower|replace(' ', '-') }}">{{ issue.status }}</span>
+    <span class="issue-detail-votes">&#x1F44D; {{ issue.votes }}</span>
+  </div>
+  <div class="issue-detail-date">Reported {{ issue.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+  <div class="issue-detail-desc">{{ issue.description }}</div>
+  {% if user %}
+    {% if not voted and not mine %}
+      <form method="post" action="/vote/{{ issue.id }}">
+        <button type="submit" class="vote-btn">Vote for this Issue</button>
+      </form>
+    {% elif voted %}
+      <button class="vote-btn" disabled>Voted &#10003;</button>
+    {% endif %}
+  {% endif %}
+</div>
 {% endblock %}

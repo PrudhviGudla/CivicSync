@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Report a New Issue</h2>
-<form method="post" enctype="multipart/form-data">
-  <label>Title: <input type="text" name="title" required></label><br>
-  <label>Description: <textarea name="description" required></textarea></label><br>
-  <label>Category:
-    <select name="category" required>
-      <option value="Road">Road</option>
-      <option value="Water">Water</option>
-      <option value="Sanitation">Sanitation</option>
-      <option value="Electricity">Electricity</option>
-      <option value="Other">Other</option>
-    </select>
-  </label><br>
-  <label>Location: <input type="text" name="location" required></label><br>
-  <label>Image: <input type="file" name="image"></label><br>
-  <button type="submit">Submit</button>
-</form>
+<div class="report-form-container">
+  <h2>Report a New Issue</h2>
+  <form method="post" enctype="multipart/form-data" class="report-form">
+    <label>Title: <input type="text" name="title" required></label><br>
+    <label>Description: <textarea name="description" required></textarea></label><br>
+    <label>Category:
+      <select name="category" required>
+        <option value="Road">Road</option>
+        <option value="Water">Water</option>
+        <option value="Sanitation">Sanitation</option>
+        <option value="Electricity">Electricity</option>
+        <option value="Other">Other</option>
+      </select>
+    </label><br>
+    <label>Location: <input type="text" name="location" required></label><br>
+    <label>Image: <input type="file" name="image"></label><br>
+    <button type="submit">Submit</button>
+  </form>
+</div>
 {% endblock %}

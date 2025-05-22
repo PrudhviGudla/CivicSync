@@ -11,16 +11,16 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# --- CONFIG ---
+# Load environment variables
 load_dotenv()
-SECRET_KEY = os.environ.get("SECRET_KEY", "")  # Change in production!
+SECRET_KEY = os.environ.get("SECRET_KEY", "") 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 MONGO_URI = os.environ.get("MONGO_URI", "")
 CLOUDINARY_UPLOAD_URL = os.environ.get("CLOUDINARY_UPLOAD_URL", "")
-CLOUDINARY_UPLOAD_PRESET = os.environ.get("CLOUDINARY_UPLOAD_PRESET", "")  # Set up unsigned preset in Cloudinary dashboard
+CLOUDINARY_UPLOAD_PRESET = os.environ.get("CLOUDINARY_UPLOAD_PRESET", "")  
 
-# --- INIT ---
+# Initialize FastAPI app and MongoDB client
 app = FastAPI()
 client = MongoClient(MONGO_URI)
 db = client.civicsync
@@ -31,7 +31,6 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# --- UTILS ---
 def hash_password(password): return pwd_context.hash(password)
 def verify_password(plain, hashed): return pwd_context.verify(plain, hashed)
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -75,8 +74,6 @@ def geocode_location(location_text):
     except Exception:
         pass
     return None
-
-# --- ROUTES ---
 
 # Home / Feed
 @app.get("/", response_class=HTMLResponse)
@@ -160,7 +157,7 @@ async def report_post(
     user = require_user(request)
     image_url = None
     if image and image.filename:
-        image.file.seek(0)  # Ensure pointer is at start
+        image.file.seek(0) 
         r = requests.post(
             CLOUDINARY_UPLOAD_URL,
             files={"file": (image.filename, image.file, image.content_type)},
@@ -344,7 +341,6 @@ def map_view(request: Request):
         serializable_issues.append(issue)
     return templates.TemplateResponse("map.html", {"request": request, "user": user, "issues": serializable_issues})
 
-# --- API for map JS ---
 @app.get("/api/issues")
 def api_issues():
     all_issues = list(issues.find({"coordinates": {"$ne": None}}))
