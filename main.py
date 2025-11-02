@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form, UploadFile, File, Depends, HTTPException, status, Response
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jose import jwt, JWTError
@@ -118,6 +118,25 @@ def home(request: Request, q: str = "", category: str = "", status_: str = "", s
         "q": q, "category": category, "status_": status_, "sort": sort,
         "page": page, "total": total, "per_page": per_page
     })
+
+
+@app.head("/")
+async def health_check():
+    """
+    Responds to Uptime Robot HEAD requests to keep the service alive
+    and pings the database to keep MongoDB active.
+    """
+    try:
+        # 1. This is the database "ping" you wanted.
+        #    A simple count is the most lightweight query.
+        issues.count_documents({}) 
+        
+        # 2. This tells Uptime Robot "200 OK!"
+        return Response(status_code=status.HTTP_200_OK)
+    except Exception as e:
+        # If the database connection fails, tell Uptime Robot
+        print(f"Uptime Robot HEAD request failed: {e}")
+        return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Register
 @app.get("/register", response_class=HTMLResponse)
