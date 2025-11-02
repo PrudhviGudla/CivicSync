@@ -1,12 +1,12 @@
 # CivicSync
 
-[![Python](https://img.shields.io/badge/python-v3.11-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.95.0-green.svg)](https://fastapi.tiangolo.com)
+[![Python](https://img.shields.io/badge/python-v3.13-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI--green.svg)](https://fastapi.tiangolo.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)](https://www.mongodb.com/cloud/atlas)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
 
-CivicSync is a modern, fullstack civic issue reporting and analytics platform developed through "vibe coding" - an exploratory, iterative development approach. It empowers citizens to report, track, and vote on local issues, and provides real-time analytics and map-based visualizations for community engagement and transparency.
+CivicSync is a modern, full-stack civic issue reporting and analytics platform developed through "vibe coding" - an exploratory, iterative development approach. It empowers citizens to report, track, and vote on local issues, and provides real-time analytics and map-based visualizations for community engagement and transparency.
 
 > **Note**: This project was developed by "vibe coding", where the architecture and features evolved organically based on user needs
 
@@ -14,6 +14,8 @@ CivicSync is a modern, fullstack civic issue reporting and analytics platform de
 🌐 **Demo URL:** [civicsync-jdk1.onrender.com](https://civicsync-jdk1.onrender.com/)
 
 > **Note:** The application is hosted on Render's free tier. Initial access may experience a 30-60 second cold start delay after periods of inactivity. Subsequent requests will be faster.
+
+<img width="600" height="360" alt="image" src="https://github.com/user-attachments/assets/42fc604f-eea0-4572-96f0-601f3451b0ad" />
 
 ## Features
 - **User Authentication**: Register/login securely with email and password (JWT-based).
@@ -31,15 +33,15 @@ CivicSync is a modern, fullstack civic issue reporting and analytics platform de
 - **Deployment**: Render.com
 - **Containerization**: Docker and Docker Compose
 
-**Note:** This application is tested with Python 3.13. Other versions may work but are not tested
+**Note:** This application is tested with Python 3.13. Other versions may work, but are not tested
 
 ## Setup Instructions
 
-You can set up CivicSync either using traditional Python installation or using Docker. Choose the method that best suits your needs.
+You can set up CivicSync either using a traditional Python installation or using Docker. Choose the method that best suits your needs.
 
 ### Prerequisites
 - Python 3.13+ (if running locally)
-- Docker and Docker Compose (if using containerized setup)
+- Docker and Docker Compose (if using a containerized setup)
 - Git
 
 ### 1. Clone the Repository
@@ -154,10 +156,14 @@ docker-compose down
 - **Map**: Issues are geocoded and shown as markers with clustering and sidebar details.
 <!-- - **Chatbot**: The floating chat button opens an AI assistant that can answer questions, search issues, provide analytics, and accept feedback (which is saved as an issue in the DB). -->
 
+<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/b481fcd9-3d9d-4982-a410-775972b76395" />
+
+<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/eafa7626-6bf1-4c90-9b82-c3daa7ae10f8" />
+
 ## Chatbot Features to be Added:
 - Click the Chat button in the top right to open the chatbot.
 - Ask about CivicSync features, how to use the app, or request analytics (e.g., "Show me pending issues", "How many issues are resolved?").
-- You can also report bugs or feedback directly to the chatbot.
+- You can also report bugs or give feedback directly to the chatbot.
 
 ## Understanding JWT Authentication
 JSON Web Tokens (JWT) are used in CivicSync for secure, stateless authentication. When users log in (`/login` route), the server:
