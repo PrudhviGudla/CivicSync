@@ -42,7 +42,7 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory:
 ```
 MONGO_URI=your_mongodb_uri_here
-SECRET_KEY=your_secret_key_here
+SECRET_KEY=your_secret_key_here # Secret for JWT signing
 CLOUDINARY_UPLOAD_URL=your_cloudinary_upload_url_here
 CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset_here
 GROQ_API_KEY=your_groq_api_key_here
