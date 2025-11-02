@@ -16,15 +16,13 @@ CivicSync is a modern, fullstack civic issue reporting and analytics platform de
 - **Public Issue Feed**: Paginated, searchable, filterable, and sortable list of all public issues.
 - **Voting System**: Vote once per issue to surface priority for resolution.
 - **Analytics Dashboard**: Visualize issue trends, category breakdowns, and most-voted issues with interactive charts.
-- **Map View**: See all issues on a map, with clustering and sidebar details.
-<!-- - **Chatbot Assistant**: AI-powered assistant (Groq + LangChain) to answer questions, search issues, provide analytics, and accept feedback. -->
+- **Map View**: See all issues on a map, with clustering and sidebar details. <!-- - **Chatbot Assistant**: AI-powered assistant (Groq + LangChain) to answer questions, search issues, provide analytics, and accept feedback. -->
 - **Modern, Responsive UI**: Beautiful, animated, and mobile-friendly design.
 
 ## Tech Stack
 - **Backend**: FastAPI (Python), MongoDB (Atlas), Cloudinary (image storage)
-- **Frontend**: HTML, CSS, JavaScript (vanilla, no framework)
-<!-- - **AI Chatbot**: LangChain + GroqAPI (LLM) -->
-- **Deployment**: Render.com (or Railway)
+- **Frontend**: HTML, CSS, JavaScript (vanilla, no framework)<!-- - **AI Chatbot**: LangChain + GroqAPI (LLM) -->
+- **Deployment**: Render.com
 
 ## Setup Instructions
 
