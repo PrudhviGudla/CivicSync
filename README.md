@@ -1,5 +1,11 @@
 # CivicSync
 
+[![Python](https://img.shields.io/badge/python-v3.11-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.95.0-green.svg)](https://fastapi.tiangolo.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)](https://www.mongodb.com/cloud/atlas)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
+
 CivicSync is a modern, fullstack civic issue reporting and analytics platform developed through "vibe coding" - an exploratory, iterative development approach. It empowers citizens to report, track, and vote on local issues, and provides real-time analytics and map-based visualizations for community engagement and transparency.
 
 > **Note**: This project was developed by "vibe coding", where the architecture and features evolved organically based on user needs
@@ -23,8 +29,18 @@ CivicSync is a modern, fullstack civic issue reporting and analytics platform de
 - **Backend**: FastAPI (Python), MongoDB (Atlas), Cloudinary (image storage)
 - **Frontend**: HTML, CSS, JavaScript (vanilla, no framework)<!-- - **AI Chatbot**: LangChain + GroqAPI (LLM) -->
 - **Deployment**: Render.com
+- **Containerization**: Docker and Docker Compose
+
+**Note:** This application is tested with Python 3.13. Other versions may work but are not tested
 
 ## Setup Instructions
+
+You can set up CivicSync either using traditional Python installation or using Docker. Choose the method that best suits your needs.
+
+### Prerequisites
+- Python 3.13+ (if running locally)
+- Docker and Docker Compose (if using containerized setup)
+- Git
 
 ### 1. Clone the Repository
 ```sh
@@ -32,13 +48,13 @@ git clone https://github.com/yourusername/civicsync.git
 cd civicsync
 ```
 
-### 2. Create and Activate a Virtual Environment
+### 2. Create and Activate a Virtual Environment (If running locally)
 ```sh
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### 3. Install Dependencies
+### 3. Install Dependencies (If running locally)
 ```sh
 pip install -r requirements.txt
 ```
@@ -91,11 +107,36 @@ CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset_here
    - Add your deployment URL to allowed origins
    - Set "Resource type" to "Auto" in upload preset
 
-### 7. Run the App Locally
+### 7. Running the Application
+
+#### Option 1: Run Locally with Python
 ```sh
 uvicorn main:app --reload
 ```
 Visit [http://localhost:8000](http://localhost:8000)
+
+#### Option 2: Run with Docker
+If you have Docker installed, you can run the application in a container:
+
+```sh
+# Build and start the container
+docker-compose up --build
+
+# To run in detached mode
+docker-compose up -d
+```
+Visit [http://localhost:8000](http://localhost:8000)
+
+The Docker setup:
+- Uses Python 3.13
+- Automatically loads environment variables from `.env`
+- Includes hot-reload for development
+- Runs with multiple workers for better performance
+
+To stop the Docker container:
+```sh
+docker-compose down
+```
 
 ### 8. Deploying (Render.com)
 - Push your code to GitHub.
@@ -126,3 +167,5 @@ JSON Web Tokens (JWT) are used in CivicSync for secure, stateless authentication
 4. Sends it as an HTTP-only cookie
 
 This token is automatically included in subsequent requests, allowing the server to verify the user's identity without database queries. The `require_user` function in `main.py` validates these tokens for protected routes like issue reporting and voting.
+
+
