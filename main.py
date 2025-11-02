@@ -22,7 +22,16 @@ CLOUDINARY_UPLOAD_PRESET = os.environ.get("CLOUDINARY_UPLOAD_PRESET", "")
 
 # Initialize FastAPI app and MongoDB client
 app = FastAPI()
-client = MongoClient(MONGO_URI)
+print("Attempting to connect to MongoDB...")
+try:
+    client = MongoClient(MONGO_URI)
+    # Test the connection
+    client.admin.command('ping')
+    print("Successfully connected to MongoDB!")
+except Exception as e:
+    print(f"MongoDB Connection Error: {e}")
+    raise
+
 db = client.civicsync
 users = db.users
 issues = db.issues
@@ -31,8 +40,17 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-def hash_password(password): return pwd_context.hash(password)
-def verify_password(plain, hashed): return pwd_context.verify(plain, hashed)
+def truncate_password(password: str, max_bytes: int = 72) -> str:
+    """Truncate password to max_bytes to comply with bcrypt limitations."""
+    encoded = password.encode('utf-8')
+    return encoded[:max_bytes].decode('utf-8', errors='ignore')
+
+def hash_password(password): 
+    return pwd_context.hash(truncate_password(password))
+
+def verify_password(plain, hashed): 
+    return pwd_context.verify(truncate_password(plain), hashed)
+
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
